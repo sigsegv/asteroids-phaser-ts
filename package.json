@@ -1,0 +1,26 @@
+{
+  "name": "asteroids-phaser-ts",
+  "version": "1.0.0",
+  "description": "A place to practice and learn about NPM, NodeJS, TypeScript, and Phaser.",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "webpack --mode=development && webpack-dev-server --mode=development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sigsegv/asteroids-phaser-ts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sigsegv/asteroids-phaser-ts/issues"
+  },
+  "homepage": "https://github.com/sigsegv/asteroids-phaser-ts#readme",
+  "devDependencies": {
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1",
+    "webpack-dev-server": "^3.1.14"
+  }
+}
