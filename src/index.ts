@@ -11,7 +11,7 @@ class SceneSplashScreen extends Phaser.Scene
 
     create() {
         console.log('scene create');
-        this.add.image(0,0,'splash');
+        this.add.image(0,0,'splash').setOrigin(0,0);
     }
 
     update() {
