@@ -21,7 +21,7 @@ class SceneSplashScreen extends Phaser.Scene
         console.log('scene create');
         this.add.image(0,0,kSplashScreenImage).setOrigin(0,0);
 
-        player = this.physics.add.image(200,200,kPlayerShipImage);
+        player = this.physics.add.image(200,200,kPlayerShipImage);        
     }
 
     update() {
@@ -55,6 +55,7 @@ class SceneSplashScreen extends Phaser.Scene
             let facingX:number = Math.sin(player.rotation);
             player.setAcceleration(-facingX*retrogradeAccel, -facingY*retrogradeAccel); // pixels/s^2
         }
+        this.physics.world.wrapObject(player);
     }
 }
 
