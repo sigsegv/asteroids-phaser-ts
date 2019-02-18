@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { Player } from './player';
 declare function require(name:string):any;
 
 var splashScreenImageUrl = require('../assets/logo-download-vector.png');
@@ -21,41 +22,11 @@ class SceneSplashScreen extends Phaser.Scene
         console.log('scene create');
         this.add.image(0,0,kSplashScreenImage).setOrigin(0,0);
 
-        player = this.physics.add.image(200,200,kPlayerShipImage);        
+        player = new Player(this, 200, 200, kPlayerShipImage);
     }
 
-    update() {
-        let angularVelocity:number = 180;
-        let progradeAccel:number = 200;
-        let retrogradeAccel:number = 50;
-
-        let keys:Phaser.Input.Keyboard.CursorKeys = this.input.keyboard.createCursorKeys();
-
-        player.setAngularVelocity(0);
-        player.setAcceleration(0,0);
-
-        if (keys.left.isDown)
-        {
-            player.setAngularVelocity(-angularVelocity);
-        }
-        if (keys.right.isDown)
-        {
-            player.setAngularVelocity(angularVelocity); // degrees/s
-            //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Body.html#setAngularVelocity
-        }
-        if (keys.up.isDown)
-        {
-            let facingY:number = -Math.cos(player.rotation);
-            let facingX:number = Math.sin(player.rotation);
-            player.setAcceleration(facingX*progradeAccel, facingY*progradeAccel); // pixels/s^2
-        }
-        if (keys.down.isDown)
-        {
-            let facingY:number = -Math.cos(player.rotation);
-            let facingX:number = Math.sin(player.rotation);
-            player.setAcceleration(-facingX*retrogradeAccel, -facingY*retrogradeAccel); // pixels/s^2
-        }
-        this.physics.world.wrapObject(player);
+    update(time:number, delta:number) {
+        
     }
 }
 
