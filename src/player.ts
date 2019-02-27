@@ -60,7 +60,8 @@ export class Player extends Phaser.Physics.Arcade.Image
 
             photon.setRotation(this.rotation);
             let facing:[number, number] = Util.facing(this.rotation);
-            photon.setVelocity(facing[0] * this.photonVelocity, facing[1] * this.photonVelocity);
+            photon.setVelocity(this.body.velocity.x + (facing[0] * this.photonVelocity), 
+                this.body.velocity.y + (facing[1] * this.photonVelocity));
         }
     }
 }
