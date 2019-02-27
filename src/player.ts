@@ -1,6 +1,7 @@
 import * as Phaser from 'phaser';
 import * as Constants from './constants';
 import { Photon } from './photon';
+import { Util }  from './util';
 
 export class Player extends Phaser.Physics.Arcade.Image
 {
@@ -9,6 +10,7 @@ export class Player extends Phaser.Physics.Arcade.Image
     retrogradeAccel:number = 50;
     readonly photonChargeTime:number = 500; // in ms
     photonCharger:number = this.photonChargeTime;
+    photonVelocity:number = 500;
 
     constructor(scene:Phaser.Scene, x:number, y:number) {
         super(scene, x, y, Constants.kPlayerShipImage);
@@ -35,25 +37,30 @@ export class Player extends Phaser.Physics.Arcade.Image
             //https://photonstorm.github.io/phaser3-docs/Phaser.Physics.Arcade.Body.html#setAngularVelocity
         }
         if (keys.up.isDown) {
-            let facingY:number = -Math.cos(this.rotation);
-            let facingX:number = Math.sin(this.rotation);
-            this.setAcceleration(facingX*this.progradeAccel, facingY*this.progradeAccel); // pixels/s^2
+            let facing:[number, number] = Util.facing(this.rotation);
+            this.setAcceleration(facing[0]*this.progradeAccel, facing[1]*this.progradeAccel); // pixels/s^2
         }
         if (keys.down.isDown) {
-            let facingY:number = -Math.cos(this.rotation);
-            let facingX:number = Math.sin(this.rotation);
-            this.setAcceleration(-facingX*this.retrogradeAccel, -facingY*this.retrogradeAccel); // pixels/s^2
+            let facing:[number, number] = Util.facing(this.rotation);
+            this.setAcceleration(-facing[0]*this.retrogradeAccel, -facing[1]*this.retrogradeAccel); // pixels/s^2
         }
         if(keys.space.isDown) {
-            if(this.photonCharger >= this.photonChargeTime) {
-                this.photonCharger = 0;
-                let photon:Photon = new Photon(this.scene, this.x, this.y, Constants.kPhotonImage);
-                photon.setVelocity(200,200);
-                this.scene.add.existing(photon);
-                this.scene.physics.add.existing(photon);
-            }
+            this.firePhoton();
         }
 
         this.scene.physics.world.wrapObject(this);
+    }
+
+    private firePhoton() {
+        if(this.photonCharger >= this.photonChargeTime) {
+            this.photonCharger = 0;
+            let photon:Photon = new Photon(this.scene, this.x, this.y, Constants.kPhotonImage);
+            this.scene.add.existing(photon);
+            this.scene.physics.add.existing(photon);
+
+            photon.setRotation(this.rotation);
+            let facing:[number, number] = Util.facing(this.rotation);
+            photon.setVelocity(facing[0] * this.photonVelocity, facing[1] * this.photonVelocity);
+        }
     }
 }
