@@ -10,6 +10,7 @@ var photonUrl = require('../assets/laserRed06.png');
 var asteroidSmallUrl = require('../assets/meteorGrey_small2.png');
 
 let player: Phaser.Physics.Arcade.Image;
+let physicsGroup: Phaser.Physics.Arcade.Group;
 
 class SceneSplashScreen extends Phaser.Scene
 {
@@ -23,16 +24,29 @@ class SceneSplashScreen extends Phaser.Scene
 
     create() {
         console.log('scene create');
+
+        physicsGroup = this.physics.add.group();
+
         this.add.image(0,0,Constants.kSplashScreenImage).setOrigin(0,0);
 
         player = new Player(this, 200, 200);
-        let asteroid: Phaser.Physics.Arcade.Image = new AsteroidSmall(this, 100,100);
+        let asteroid: Phaser.Physics.Arcade.Image = new AsteroidSmall(this, 400, 400);
+
+        physicsGroup.add(player);
+        physicsGroup.add(asteroid);
+
+        this.physics.add.collider(physicsGroup, physicsGroup, this.collisionCallback);
+
         asteroid.setVelocity(200,200);
         asteroid.setAngularVelocity(50);
     }
 
     update(time:number, delta:number) {
         
+    }
+
+    collisionCallback(obj1:Phaser.GameObjects.GameObject, obj2:Phaser.GameObjects.GameObject) {
+        console.log('collision');
     }
 }
 
