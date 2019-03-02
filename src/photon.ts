@@ -7,13 +7,16 @@ export class Photon extends Phaser.Physics.Arcade.Image
         this.scene.physics.add.existing(this);
         this.scene.add.existing(this);
         this.on('collision', this.onCollision);
-    }
-
-    preUpdate(time:number, delta:number) {
         
     }
 
+    preUpdate(time:number, delta:number) {
+        if(!this.scene.physics.world.bounds.contains(this.body.position.x, this.body.position.y)) {
+            this.destroy();
+        }
+    }
+
     onCollision(other:Phaser.GameObjects.GameObject) {
-        console.log('photon collision');
+        this.destroy();
     }
 }
