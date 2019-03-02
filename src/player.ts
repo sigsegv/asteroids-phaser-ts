@@ -16,6 +16,7 @@ export class Player extends Phaser.Physics.Arcade.Image
         super(scene, x, y, Constants.kPlayerShipImage);
         this.scene.physics.add.existing(this);
         this.scene.add.existing(this);
+        this.on('collision', this.onCollision);
     }
 
     preUpdate(time:number, delta:number) {
@@ -49,6 +50,10 @@ export class Player extends Phaser.Physics.Arcade.Image
         }
 
         this.scene.physics.world.wrapObject(this);
+    }
+
+    onCollision(other:Phaser.GameObjects.GameObject) {
+        console.log('player collision');
     }
 
     private firePhoton() {

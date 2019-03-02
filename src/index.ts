@@ -46,7 +46,8 @@ class SceneSplashScreen extends Phaser.Scene
     }
 
     collisionCallback(obj1:Phaser.GameObjects.GameObject, obj2:Phaser.GameObjects.GameObject) {
-        console.log('collision');
+        obj1.emit('collision', obj2);
+        obj2.emit('collision', obj1);
     }
 }
 
