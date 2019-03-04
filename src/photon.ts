@@ -1,4 +1,5 @@
 import * as Phaser from 'phaser';
+import { Player } from './player';
 
 export class Photon extends Phaser.Physics.Arcade.Image
 {
@@ -7,7 +8,7 @@ export class Photon extends Phaser.Physics.Arcade.Image
         this.scene.physics.add.existing(this);
         this.scene.add.existing(this);
         this.on('collision', this.onCollision);
-        
+        this.scene.events.emit('addCollider', this);
     }
 
     preUpdate(time:number, delta:number) {
@@ -17,6 +18,10 @@ export class Photon extends Phaser.Physics.Arcade.Image
     }
 
     onCollision(other:Phaser.GameObjects.GameObject) {
+        if(other instanceof Player) return;
+        
+        console.log('photon collision');
+        this.scene.events.emit('removeCollider', this);
         this.destroy();
     }
 }

@@ -20,6 +20,9 @@ class SceneSplashScreen extends Phaser.Scene
         this.load.image(Constants.kPlayerShipImage, playerShipUrl);
         this.load.image(Constants.kPhotonImage, photonUrl);
         this.load.image(Constants.kAsteroidSmallImage, asteroidSmallUrl);
+
+        this.events.on('addCollider', this.onAddCollider);
+        this.events.on('removeCollider', this.onRemoveCollider);
     }
 
     create() {
@@ -43,6 +46,14 @@ class SceneSplashScreen extends Phaser.Scene
 
     update(time:number, delta:number) {
         
+    }
+
+    onAddCollider(obj: Phaser.GameObjects.GameObject) {
+        physicsGroup.add(obj);
+    }
+
+    onRemoveCollider(obj: Phaser.GameObjects.GameObject) {
+        physicsGroup.remove(obj);
     }
 
     collisionCallback(obj1:Phaser.GameObjects.GameObject, obj2:Phaser.GameObjects.GameObject) {

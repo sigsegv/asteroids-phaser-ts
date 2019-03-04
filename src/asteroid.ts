@@ -16,6 +16,7 @@ export class AsteroidSmall extends Phaser.Physics.Arcade.Image
 
     onCollision(other:Phaser.GameObjects.GameObject) {
         console.log('asteroid small collision');
+        this.scene.events.emit('removeCollider', this);
         this.destroy();
     }
 }

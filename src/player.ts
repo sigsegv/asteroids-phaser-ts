@@ -53,6 +53,9 @@ export class Player extends Phaser.Physics.Arcade.Image
     }
 
     onCollision(other:Phaser.GameObjects.GameObject) {
+        if(other instanceof Photon) return;
+        this.scene.events.emit('removeCollider', this);
+        this.destroy();
         console.log('player collision');
     }
 
